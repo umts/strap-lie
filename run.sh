@@ -9,7 +9,7 @@ if sudo -vn &>/dev/null; then
   exit 0
 fi
 
-until id -Gn "$adminuser" | grep "$admingroup" &>/dev/null; do
+until id -Gn "$adminuser" 2>/dev/null | grep "$admingroup" &>/dev/null; do
   read -rp 'Enter your admin username: ' adminuser
 done
 
