@@ -9,7 +9,7 @@ _admingroup="admin"
 [ "x$(type -t sudo)" = "xfunction" ] && exit 0
 
 # If the user can aready sudo, that's fine.
-if (sudo -vn && sudo -ln) 2>&1 | grep -v 'may not' > /dev/null; then
+if sudo -v -p 'Can you already sudo? Enter your password: '; then
   exit 0
 fi
 
