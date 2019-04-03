@@ -34,5 +34,7 @@ export -f groups
 export _adminuser _admingroup
 
 # Make sure the user knows about their delusions
+set +e +u +o pipefail
 /bin/bash --rcfile \
-  <(grep -hs ^ /etc/bash.bashrc ~/.bashrc; echo 'PS1="\h:\W \u (\[\e[38;5;128;1m\]deluded\[\e[39;0m\])\$"')
+  <(grep -hs ^ /etc/bashrc /etc/bash.bashrc ~/.bashrc
+    echo 'PS1="\h:\W \u (\[\e[38;5;128;1m\]deluded\[\e[39;0m\])\$"')
