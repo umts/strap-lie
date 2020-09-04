@@ -2,8 +2,8 @@
 
 set -euo pipefail
 
-_adminuser="$USER-d"
-_admingroup="admin"
+adminuser="$USER-d"
+admingroup="admin"
 
 # If sudo is already a function, chances are we're double-running.
 [ "x$(type -t sudo)" = "xfunction" ] && exit 0
@@ -18,23 +18,23 @@ until id -Gn "$_adminuser" 2>/dev/null | grep "$_admingroup" &>/dev/null; do
   read -rp 'Enter your admin username: ' _adminuser
 done
 
+rcfile="$(cat <<BASH
+#!/bin/bash
+
 # Lie #1: sudo us actually a call to su now.
 function sudo {
-  su "$_adminuser" -c "/usr/bin/sudo $*"
+  su "$adminuser" -c "/usr/bin/sudo \$*"
 }
-export -f sudo
 
 # Lie #2: groups claims the user is an admin even if they're not.
 function groups {
-  echo "$_admingroup $(/usr/bin/groups $*)"
+  echo "$admingroup \$(/usr/bin/groups \$*)"
 }
-export -f groups
-
-# These need to be exported in order to be used in the functions above
-export _adminuser _admingroup
 
 # Make sure the user knows about their delusions
+export PS1="\h:\W \u (\[\e[38;5;128;1m\]deluded\[\e[39;0m\])\$"
+BASH
+)"
+
 set +e +u +o pipefail
-/bin/bash --rcfile \
-  <(grep -hs ^ /etc/bashrc /etc/bash.bashrc ~/.bashrc
-    echo 'PS1="\h:\W \u (\[\e[38;5;128;1m\]deluded\[\e[39;0m\])\$"')
+/bin/bash --rcfile <(echo "$rcfile")
