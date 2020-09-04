@@ -34,7 +34,7 @@ function groups {
 # Make sure the user knows about their delusions
 export PS1="\h:\W \u (\[\e[38;5;128;1m\]deluded\[\e[39;0m\])\$"
 
-# Don't let Mac nag us about zsh
+# Silence Mac deprecation warning on Bash
 export BASH_SILENCE_DEPRECATION_WARNING=1
 BASH
 )"
