@@ -26,13 +26,16 @@ function sudo {
   su "$adminuser" -c "/usr/bin/sudo \$*"
 }
 
-# Lie #2: groups claims the user is an admin even if they're not.
+# Lie #2: groups claims the user is an admin even if they are not.
 function groups {
   echo "$admingroup \$(/usr/bin/groups \$*)"
 }
 
 # Make sure the user knows about their delusions
 export PS1="\h:\W \u (\[\e[38;5;128;1m\]deluded\[\e[39;0m\])\$"
+
+# Don't let Mac nag us about zsh
+export BASH_SILENCE_DEPRECATION_WARNING=1
 BASH
 )"
 
