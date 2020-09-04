@@ -23,13 +23,24 @@ rcfile="$(cat <<BASH
 
 # Lie #1: sudo us actually a call to su now.
 function sudo {
-  su "$adminuser" -c "/usr/bin/sudo \$*"
+  for arg do
+    shift
+    case \$arg in
+      --askpass|-A) : ;;
+      --validate|-v) set -- "\$@" "/bin/true" ;;
+      *) set -- "\$@" "\$arg" ;;
+    esac
+  done
+  su "$adminuser" -c "/usr/bin/sudo --stdin \$*"
 }
 
 # Lie #2: groups claims the user is an admin even if they are not.
 function groups {
   echo "$admingroup \$(/usr/bin/groups \$*)"
 }
+
+# Lie #3: sudo --askpass is already set up.
+export SUDO_ASKPASS="/bin/false"
 
 # Make sure the user knows about their delusions
 export PS1="\h:\W \u (\[\e[38;5;128;1m\]deluded\[\e[39;0m\])\$"
