@@ -40,7 +40,7 @@ function groups {
 }
 
 # Lie #3: sudo --askpass is already set up.
-export SUDO_ASKPASS="/bin/false"
+export SUDO_ASKPASS="/usr/bin/false"
 
 # Make sure the user knows about their delusions
 export PS1="\h:\W \u (\[\e[38;5;128;1m\]deluded\[\e[39;0m\])\$"
