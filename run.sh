@@ -21,14 +21,14 @@ done
 rcfile="$(cat <<BASH
 #!/bin/bash
 
-# Lie #1: sudo us actually a call to su now.
+# Lie #1: sudo is actually a call to su now.
 function sudo {
   for arg do
     shift
     case \$arg in
-      --askpass|-A) : ;;
-      --validate|-v) set -- "\$@" "/bin/true" ;;
-      *) set -- "\$@" "\$arg" ;;
+      (--askpass|-A) : ;;
+      (--validate|-v) set -- "\$@" "/bin/true" ;;
+      (*) set -- "\$@" "\$arg" ;;
     esac
   done
   su "$adminuser" -c "/usr/bin/sudo --stdin \$*"
