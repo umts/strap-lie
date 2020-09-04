@@ -14,8 +14,8 @@ if sudo -v -p 'Can you already sudo? Enter your password: '; then
 fi
 
 # We have to rely on group membership here, to avoid password-prompting.
-until id -Gn "$_adminuser" 2>/dev/null | grep "$_admingroup" &>/dev/null; do
-  read -rp 'Enter your admin username: ' _adminuser
+until id -Gn "$adminuser" 2>/dev/null | grep "$admingroup" &>/dev/null; do
+  read -rp 'Enter your admin username: ' adminuser
 done
 
 rcfile="$(cat <<BASH
